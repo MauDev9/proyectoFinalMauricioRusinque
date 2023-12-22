@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-image: url(../assets/pizzaFondo.jpg);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    background-position: relative;
+}
+h2 {
+    text-align: center;
+    margin: 5px;
+}
+h2:hover{
+    background-color: brown;border-radius: 25px;
+
+}
+#mainContainer{
+    display: flex;
+    align-items: center;
+}
+
+#cartShopping{
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    background-color: transparent;
+    border: none;
+    color: rgb(21, 160, 220);
+    font-size: 40px;
+}

@@ -16,6 +16,18 @@ header {
     text-align: center;
     padding: 1em 2%;
 }
+
+#mainContainer {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+#pizzaList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 #cartShopping{
     display: flex;
     justify-content: end;

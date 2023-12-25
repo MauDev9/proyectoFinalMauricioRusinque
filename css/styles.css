@@ -1,36 +1,100 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    background-image: url(../assets/pizzaFondo.jpg);
+
+
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
     overflow-x: hidden;
+    background-image: url(../assets/pizzaFondo.jpg);
     background-position: relative;
 }
-h2 {
+
+header {
+    background-color: #333;
+    color: #fff;
     text-align: center;
-    margin: 5px;
+    padding: 1em 2%;
 }
-h2:hover{
-    background-color: brown;border-radius: 25px;
-
-}
-#mainContainer{
-    display: flex;
-    align-items: center;
-}
-
 #cartShopping{
-    position: absolute;
-    right: 25px;
-    top: 20px;
-    background-color: transparent;
+    display: flex;
+    justify-content: end;
+}
+
+button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #333;
     border: none;
-    color: rgb(21, 160, 220);
-    font-size: 40px;
+    cursor: pointer;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Agrega estilos para las tarjetas y el contenedor */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    margin: 10px;
+    flex: 0 0 calc(33.33% - 20px); 
+    box-sizing: border-box; 
+    background-color: #33333389;
+}
+
+.card h3 {
+    background-color: #333;
+}
+.card p {
+    color: #c8bebe;
+}
+
+.card img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+h2, p {
+    margin: 10px 0;
+}
+
+button {
+    background-color: #fff;
+    color: #333;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 10px;
+}
+button:hover {
+    background-color: #333;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+
+/* Ajustes para hacer las tarjetas más responsivas */
+@media screen and (max-width: 768px) {
+    .card {
+        flex: 0 0 calc(50% - 20px); 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        flex: 0 0 calc(100% - 20px); 
+    }
 }

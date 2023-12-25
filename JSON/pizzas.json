@@ -1,8 +1,8 @@
 [
-    {"id": 1, "title": "Pizza Peperoni", "img": "../assets/pizzaPeperoni.jpg", "price": 17000, "stock": 3, "cantidad": 0 },
-    {"id": 2, "title": "Pizza Hongos", "img": "../assets/pizzaHongos.jpg", "price": 16000, "stock": 3, "cantidad": 0 },
-    {"id": 3, "title": "Pizza Parrilla", "img": "../assets/pizzaParrilla.jpg", "price": 18000, "stock": 3, "cantidad": 0 },
-    {"id": 4, "title": "Pizza Queso", "img": "../assets/pizzaQueso.jpg", "price": 17500, "stock": 3, "cantidad": 0 },
-    {"id": 5, "title": "Pizza Tomate", "img": "../assets/pizzaTomate.jpg", "price": 16500, "stock": 3, "cantidad": 0 },
-    {"id": 6, "title": "Pizza Tocino", "img": "../assets/pizzaTocino.jpg", "price": 19000, "stock": 3, "cantidad": 0 }
+    {"id": 1, "title": "Pizza Peperoni", "img": "../assets/pizzaPeperoni.jpg", "price": 17000, "description": "Tomate, mozzarella y albahaca", "stock": 3, "cantidad": 0 },
+    {"id": 2, "title": "Pizza Hongos", "img": "../assets/pizzaHongos.jpg", "price": 16000, "description": "Champiñones, queso y salsa de tomate", "stock": 3, "cantidad": 0 },
+    {"id": 3, "title": "Pizza Parrilla", "img": "../assets/pizzaParrilla.jpg", "price": 18000, "description": "Carne, queso y salsa de tomate", "stock": 3, "cantidad": 0 },
+    {"id": 4, "title": "Pizza Queso", "img": "../assets/pizzaQueso.jpg", "price": 17500, "description": "Extra queso y salsa de tomate", "stock": 3, "cantidad": 0 },
+    {"id": 5, "title": "Pizza Tomate", "img": "../assets/pizzaTomate.jpg", "price": 16500, "description": "Rodajas de tomate, queso y tocino", "stock": 3, "cantidad": 0 },
+    {"id": 6, "title": "Pizza Tocino", "img": "../assets/pizzaTocino.jpg", "price": 19000, "description": "Tocino de cerdo, salami y salsa de tomate", "stock": 3, "cantidad": 0 }
 ]

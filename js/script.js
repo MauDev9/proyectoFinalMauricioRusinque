@@ -1,9 +1,6 @@
 let carrito = [];
-//let cantidad = 0;
 const btnCar = document.getElementById("cartShopping");
-const listSection = document.getElementById("pizzaList")
-
-
+const pizzaList = document.getElementById("pizzaList");
 
 async function findAll() {
     return new Promise((resolve, reject) => {
@@ -15,111 +12,151 @@ async function findAll() {
                 return response.json();
             })
             .then((products) => {
-                console.log(products)
-                resolve(products); // Resuelve la promesa con los datos obtenidos
+                resolve(products);
             })
             .catch((error) => {
                 console.error("Hubo un problema con la petición Fetch:", error);
-                reject(error); // Rechaza la promesa con el error
+                reject(error);
             });
     });
-};
+}
+
+function createPizzaCard(pizza) {
+    const card = document.createElement("div");
+    card.classList.add("card", "border-primary", "mb-3", "d-flex", "flex-row");
+
+    const img = document.createElement("img");
+    img.src = pizza.img;
+    img.alt = pizza.title;
+    img.classList.add("card-img-top");
+
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+
+    const title = document.createElement("h2");
+    title.classList.add("card-title");
+    title.textContent = pizza.title;
+
+    const price = document.createElement("h3");
+    price.classList.add("card-text");
+    price.textContent = `$${pizza.price}`;
+
+    const stock = document.createElement("h4");
+    stock.classList.add("card-text");
+    stock.textContent = `Stock: ${pizza.stock}`;
 
 
+    const description = document.createElement("p");
+    description.classList.add("card-text");
+    description.textContent = pizza.description;
+
+    const orderButton = document.createElement("button");
+    orderButton.classList.add("btn", "btn-primary", "button-agg-carrito");
+    orderButton.textContent = "Ordenar";
+
+    const quantityContainer = document.createElement("div");
+    quantityContainer.classList.add("d-flex", "justify-content-between", "align-items-center");
+
+    const increaseButton = document.createElement("button");
+    increaseButton.classList.add("btn", "btn-outline-success", "button-aumentar");
+    increaseButton.textContent = "+";
+
+    const quantitySpan = document.createElement("span");
+    quantitySpan.classList.add("cantidad", "badge", "bg-secondary");
+    quantitySpan.textContent = "0";
+
+    const decreaseButton = document.createElement("button");
+    decreaseButton.classList.add("btn", "btn-outline-danger", "button-disminuir");
+    decreaseButton.textContent = "-";
+
+    quantityContainer.appendChild(increaseButton);
+    quantityContainer.appendChild(quantitySpan);
+    quantityContainer.appendChild(decreaseButton);
+
+    cardBody.appendChild(title);
+    cardBody.appendChild(img);
+    cardBody.appendChild(price);
+    cardBody.appendChild(description);
+    cardBody.appendChild(stock);
+    cardBody.appendChild(orderButton);
+    cardBody.appendChild(quantityContainer);
+
+    card.appendChild(img);
+    card.appendChild(cardBody);
+
+
+
+    // Agregar al carrito.
+    orderButton.addEventListener('click', () => {
+        if (pizza.stock < 1) {
+            Swal.fire({
+                title: "No hay stock disponible",
+                icon: "error",
+            });
+            return;
+        } else if (pizza.cantidad === 0) {
+            Swal.fire({
+                title: "Debes seleccionar al menos una pizza.   ",
+                icon: "error",
+            });
+        } else {
+            alert(`Se han agregado ${pizza.cantidad} ${pizza.title}`)
+            carrito.push(pizza)
+            pizza.stock--
+            pizza.cantidad = (pizza.cantidad) + 1;
+            stock.textContent = `Stock: ${pizza.stock}`;
+
+            console.log(carrito)
+        }
+    });
+
+    // Aumentar
+    increaseButton.addEventListener('click', () => {
+        if (pizza.stock < 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `No tenemos mas stock de ${pizza.title}!`
+            });
+            console.log(carrito)
+            return;
+        }
+        pizza.cantidad = (pizza.cantidad || 0) + 1;
+        pizza.stock--
+        quantitySpan.textContent = `${pizza.cantidad}`;
+    });
+
+    // Disminuir
+    decreaseButton.addEventListener('click', () => {
+        if (pizza.cantidad > 0) {
+            pizza.cantidad--;
+            pizza.stock++;
+            quantitySpan.textContent = `${pizza.cantidad} `;
+
+        }
+    });
+
+    return card;
+}
 
 btnCar.addEventListener('click', () => {
     let pizzaJson = JSON.stringify(carrito);
     localStorage.setItem("Carrito", pizzaJson)
     if (carrito.length < 1) {
         Swal.fire({
-            title: "El carrito está vacio.",
+            title: "El carrito está vacío.",
             text: "",
             icon: "error",
         });
     } else {
-
+        // Lógica para procesar el carrito aquí
     }
-
-})
-
+});
 
 findAll().then((pizzas) => {
     pizzas.forEach(pizza => {
-        const sectionList = document.getElementById("pizzaList");
-        const article = document.createElement("article");
-        article.classList.add("pizzaCard");
-        const h2 = document.createElement("h2");
-        const img = document.createElement("img");
-        const h3 = document.createElement("h3");
-        const h4 = document.createElement("h4");
-        const button = document.createElement("button");
-        const buttonPlus = document.createElement("button");
-        const buttonLess = document.createElement("button");
-
-        button.classList.add("add-cart");
-        h2.textContent = pizza.title;
-        h3.textContent = `$${pizza.price}`;
-        h4.textContent = `${pizza.cantidad || 0}`;
-        button.textContent = "Agregar";
-        buttonPlus.textContent = "+";
-        buttonLess.textContent = "-";
-        img.src = pizza.img;
-        img.style.width = "350px";
-
-        article.appendChild(h2);
-        article.appendChild(img);
-        article.appendChild(h3);
-        article.appendChild(h4);
-        article.appendChild(button);
-        article.appendChild(buttonPlus);
-        article.appendChild(buttonLess);
-
-        button.name = pizza.title;
-        button.value = pizza.id;
-
-        sectionList.appendChild(article)
-
-        // Agregar al carrito.
-        button.addEventListener('click', () => {
-            if (pizza.stock < 1) {
-                alert(`Se acabó la pizza.`)
-                return;
-            }else if (pizza.cantidad === 0){
-                alert(`Debes seleccionar al menos una pizza.`)
-            }else{
-                alert(`Se han agregado ${pizza.cantidad} ${button.name}`)
-            carrito.push(pizza)
-            pizza.stock--
-            pizza.cantidad = (pizza.cantidad) + 1;
-            console.log(carrito)
-            }
-            
-        });
-
-        //Aumentar
-        buttonPlus.addEventListener('click', () => {
-
-            if (pizza.stock < 1) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: `No hay tenemos mas stock de ${button.name}!`
-                });
-                return;
-            }
-            pizza.cantidad = (pizza.cantidad || 0) + 1;
-            pizza.stock--
-            h4.textContent = `${pizza.cantidad || 0}`;
-        });
-
-        //dismonuir
-        buttonLess.addEventListener('click', () =>{
-            if (pizza.cantidad > 0) {
-                pizza.cantidad--;
-                pizza.stock++;
-                h4.textContent = `${pizza.cantidad || 0}`; 
-                console.log(pizza.cantidad);
-            }
-        });
+        const card = createPizzaCard(pizza);
+        pizzaList.appendChild(card);
     });
+
 });

@@ -139,6 +139,15 @@ function createPizzaCard(pizza) {
     return card;
 }
 
+findAll().then((pizzas) => {
+    pizzas.forEach(pizza => {
+        const card = createPizzaCard(pizza);
+        pizzaList.appendChild(card);
+    });
+
+});
+
+
 btnCar.addEventListener('click', () => {
     let pizzaJson = JSON.stringify(carrito);
     localStorage.setItem("Carrito", pizzaJson)
@@ -149,18 +158,10 @@ btnCar.addEventListener('click', () => {
             icon: "error",
         });
     } else {
-        
+        const modal = document.createElement("modalVisble");
+        modal.classList.add("modalVisible","d-flex", "justify-content-between", "align-items-center");
+        modalVisible.textContent = "Hola";
+
+
     }
 });
-
-findAll().then((pizzas) => {
-    pizzas.forEach(pizza => {
-        const card = createPizzaCard(pizza);
-        pizzaList.appendChild(card);
-    });
-
-});
-
-
-// ...
-

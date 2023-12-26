@@ -149,7 +149,11 @@ btnCar.addEventListener('click', () => {
             icon: "error",
         });
     } else {
-        
+        const modal = document.createElement("modalVisble");
+        modal.classList.add("modalVisible","d-flex", "justify-content-between", "align-items-center");
+        modalVisible.textContent = "Hola";
+
+
     }
 });
 

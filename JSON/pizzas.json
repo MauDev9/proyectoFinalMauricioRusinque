@@ -4,5 +4,5 @@
     {"id": 3, "title": "Pizza Parrilla", "img": "../assets/pizzaParrilla.jpg", "price": 18000, "description": "Carne, queso y salsa de tomate", "stock": 3, "cantidad": 0 },
     {"id": 4, "title": "Pizza Queso", "img": "../assets/pizzaQueso.jpg", "price": 17500, "description": "Extra queso y salsa de tomate", "stock": 3, "cantidad": 0 },
     {"id": 5, "title": "Pizza Tomate", "img": "../assets/pizzaTomate.jpg", "price": 16500, "description": "Rodajas de tomate, queso y tocino", "stock": 3, "cantidad": 0 },
-    {"id": 6, "title": "Pizza Tocino", "img": "../assets/pizzaTocino.jpg", "price": 19000, "description": "Tocino de cerdo, salami y salsa de tomate", "stock": 3, "cantidad": 0 }
+    {"id": 6, "title": "Pizza Tocino", "img": "../assets/pizzaTocino.jpg", "price": 19000, "description": "Tocino de cerdo, salami y salsa de tomate", "stock": 3}
 ]

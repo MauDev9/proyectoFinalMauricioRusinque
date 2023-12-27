@@ -88,47 +88,32 @@ function createPizzaCard(pizza) {
 
     // Agregar al carrito.
     orderButton.addEventListener('click', () => {
-        if (pizza.cantidad === 0) {
-            Swal.fire({
-                title: "Debes seleccionar al menos una pizza.   ",
-                icon: "error",
-            });
-        } else {
-            alert(`Se han agregado ${pizza.cantidad} ${pizza.title}`)
-            carrito.push(pizza)
-            pizza.stock--
-            pizza.cantidad++;
-            
-            stock.textContent = `Stock: ${pizza.stock}`;
-            console.log(carrito)
-        }
-        
+
+
     });
 
     // Aumentar
     increaseButton.addEventListener('click', () => {
         if (pizza.stock < 1) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `No tenemos mas stock de ${pizza.title}!`
-            });
-            console.log(carrito)
-            return;
+            alert(`No hay stock`);
+            console.log(pizza);
+        } else {
+            pizza.stock--;
+            quantitySpan.innerText++;
+            stock.innerText = `Stock: ${pizza.stock}`;
         }
-        pizza.cantidad++;
-        pizza.stock--
-        quantitySpan.textContent = `${pizza.cantidad}`;
     });
 
     // Disminuir
     decreaseButton.addEventListener('click', () => {
-        if (pizza.cantidad > 0) {
-            pizza.cantidad--;
+        if (pizza.stock > 2) {
+            console.log(pizza);
+        } else {
             pizza.stock++;
-            quantitySpan.textContent = `${pizza.cantidad} `;
-
+            quantitySpan.innerText--;
+            stock.innerText = `Stock: ${pizza.stock}`;
         }
+
     });
 
     return card;
@@ -145,7 +130,7 @@ btnCar.addEventListener('click', () => {
         });
     } else {
         const modal = document.createElement("modalVisble");
-        modal.classList.add("modalVisible","d-flex", "justify-content-between", "align-items-center");
+        modal.classList.add("modalVisible", "d-flex", "justify-content-between", "align-items-center");
         modalVisible.textContent = "Hola";
 
 
@@ -160,6 +145,4 @@ findAll().then((pizzas) => {
 
 });
 
-
-// ...
 

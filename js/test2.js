@@ -45,7 +45,6 @@ function createPizzaCard(pizza) {
     stock.classList.add("card-text");
     stock.textContent = `Stock: ${pizza.stock}`;
 
-
     const description = document.createElement("p");
     description.classList.add("card-text");
     description.textContent = pizza.description;
@@ -54,32 +53,13 @@ function createPizzaCard(pizza) {
     orderButton.classList.add("btn", "btn-primary", "button-agg-carrito");
     orderButton.textContent = "Ordenar";
 
-    const quantityContainer = document.createElement("div");
-    quantityContainer.classList.add("d-flex", "justify-content-between", "align-items-center");
-
-    const increaseButton = document.createElement("button");
-    increaseButton.classList.add("btn", "btn-outline-success", "button-aumentar" ,);
-    increaseButton.textContent = "+";
-
-    const quantitySpan = document.createElement("span");
-    quantitySpan.classList.add("cantidad", "badge", "bg-secondary");
-    quantitySpan.textContent = "0";
-
-    const decreaseButton = document.createElement("button");
-    decreaseButton.classList.add("btn", "btn-outline-danger", "button-disminuir");
-    decreaseButton.textContent = "-";
-
-    quantityContainer.appendChild(increaseButton);
-    quantityContainer.appendChild(quantitySpan);
-    quantityContainer.appendChild(decreaseButton);
-
     cardBody.appendChild(title);
     cardBody.appendChild(img);
     cardBody.appendChild(price);
     cardBody.appendChild(description);
     cardBody.appendChild(stock);
+
     cardBody.appendChild(orderButton);
-    cardBody.appendChild(quantityContainer);
 
     card.appendChild(img);
     card.appendChild(cardBody);
@@ -88,65 +68,50 @@ function createPizzaCard(pizza) {
 
     // Agregar al carrito.
     orderButton.addEventListener('click', () => {
-        
-        if (pizza.cantidad > 0) {
-            const pizzaEnCarrito = {
-                id: pizza.id, 
-                title: pizza.title,
-                price: pizza.price,
-                cantidad: pizza.cantidad,
-            };
-    
-            carrito.push(pizzaEnCarrito);
-
-            stock.innerText = `Stock: ${pizza.stock}`;
-    
-            
-            Swal.fire({
-                title: ` ${pizza.title} añadida al carrito`,
-                text: `Cantidad: ${pizza.cantidad}`,
-                icon: "success",
-            });
-        } else {
-            
-            Swal.fire({
-                title: "Selecciona al menos una pizza",
-                text: "",
-                icon: "error",
-            });
-        }
-    });
-
-
-    // Aumentar
-    increaseButton.addEventListener('click', () => {
         if (pizza.stock < 1) {
-            alert(`No hay mas stock de ${pizza.title}`);
-            
-            console.log(pizza);
+            Swal.fire({
+                title: `Lo sentimos, no nos quedan más ${pizza.title}`,
+                text: "",
+                icon: "info",
+            });
         } else {
-            pizza.stock--;
-            pizza.cantidad++
-            quantitySpan.innerText++;
-            stock.innerText = `Stock: ${pizza.stock}`;
-            console.log(pizza)
+            const swalButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger",
+                },
+                buttonsStyling: false,
+            });
+    
+            swalButtons
+                .fire({
+                    title: `¿Deseas agregar ${pizza.title} al carrito?`,
+                    text: `¡Apúrate! solo quedan ${pizza.stock}`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Agregar",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true,
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // Se ejecuta solo si el usuario confirma agregar al carrito
+                        pizza.stock--;
+                        console.log(pizza);
+                        stock.innerText = `Stock: ${pizza.stock}`;
+                        carrito.push(pizza)
+
+                        Swal.fire({
+                            title: `Su ${pizza.title} ha siddo agregada al carrito`,
+                            text: "",
+                            icon: "success",
+                        });
+                    }
+                });
+                
         }
     });
 
-    // Disminuir
-    decreaseButton.addEventListener('click', () => {
-        if (pizza.stock > 2) {
-            alert(`El stock esta lleno.`)
-            console.log(pizza);
-        } else {
-            pizza.stock++;
-            pizza.cantidad--
-            quantitySpan.innerText--;
-            stock.innerText = `Stock: ${pizza.stock}`;
-            console.log(pizza)
-        }
-
-    });
 
     return card;
 }

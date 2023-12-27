@@ -58,7 +58,7 @@ function createPizzaCard(pizza) {
     quantityContainer.classList.add("d-flex", "justify-content-between", "align-items-center");
 
     const increaseButton = document.createElement("button");
-    increaseButton.classList.add("btn", "btn-outline-success", "button-aumentar");
+    increaseButton.classList.add("btn", "btn-outline-success", "button-aumentar" ,);
     increaseButton.textContent = "+";
 
     const quantitySpan = document.createElement("span");
@@ -88,30 +88,62 @@ function createPizzaCard(pizza) {
 
     // Agregar al carrito.
     orderButton.addEventListener('click', () => {
+        
+        if (pizza.cantidad > 0) {
+            const pizzaEnCarrito = {
+                id: pizza.id, 
+                title: pizza.title,
+                price: pizza.price,
+                cantidad: pizza.cantidad,
+            };
+    
+            carrito.push(pizzaEnCarrito);
 
-
+            stock.innerText = `Stock: ${pizza.stock}`;
+    
+            
+            Swal.fire({
+                title: ` ${pizza.title} añadida al carrito`,
+                text: `Cantidad: ${pizza.cantidad}`,
+                icon: "success",
+            });
+        } else {
+            
+            Swal.fire({
+                title: "Selecciona al menos una pizza",
+                text: "",
+                icon: "error",
+            });
+        }
     });
+
 
     // Aumentar
     increaseButton.addEventListener('click', () => {
         if (pizza.stock < 1) {
-            alert(`No hay stock`);
+            alert(`No hay mas stock de ${pizza.title}`);
+            increaseButton.disabled = true;
             console.log(pizza);
         } else {
             pizza.stock--;
+            pizza.cantidad++
             quantitySpan.innerText++;
             stock.innerText = `Stock: ${pizza.stock}`;
+            console.log(pizza)
         }
     });
 
     // Disminuir
     decreaseButton.addEventListener('click', () => {
         if (pizza.stock > 2) {
+            alert(`El stock esta lleno.`)
             console.log(pizza);
         } else {
             pizza.stock++;
+            pizza.cantidad--
             quantitySpan.innerText--;
             stock.innerText = `Stock: ${pizza.stock}`;
+            console.log(pizza)
         }
 
     });

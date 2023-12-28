@@ -113,6 +113,18 @@ button:hover {
     transform: scale(1.1);
 }
 
+.modal h2{
+    background: rgba(90, 88, 88, 0.492);
+    text-align: center;
+    font-size: 50px;
+    text-transform: uppercase;
+}
+
+.pizza-info{
+    font-size: 38px;
+    text-align: center;
+    background-color: #74d68a3a;
+}
 
 /* Ajustes para hacer las tarjetas más responsivas */
 @media screen and (max-width: 768px) {

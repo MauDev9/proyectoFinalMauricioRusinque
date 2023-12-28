@@ -84,7 +84,7 @@ function createPizzaCard(pizza) {
                 },
                 buttonsStyling: false,
             });
-    
+
             swalButtons
                 .fire({
                     title: `¿Deseas agregar ${pizza.title} al carrito?`,
@@ -113,7 +113,7 @@ function createPizzaCard(pizza) {
                         });
                     }
                 });
-                
+
         }
     });
 
@@ -122,6 +122,10 @@ function createPizzaCard(pizza) {
 }
 
 btnCar.addEventListener('click', () => {
+    cartPizzas()
+});
+
+function cartPizzas() {
     let pizzaJson = JSON.stringify(carrito);
     localStorage.setItem("Carrito", pizzaJson)
     if (carrito.length < 1) {
@@ -131,13 +135,54 @@ btnCar.addEventListener('click', () => {
             icon: "error",
         });
     } else {
-        const modal = document.createElement("modalVisble");
-        modal.classList.add("modalVisible", "d-flex", "justify-content-between", "align-items-center");
-        modalVisible.textContent = "Hola";
+        btnCar.style.display = 'none'
+        pizzaList.style.display = 'none';
+        // Ocultamos el documento y mostramos el modal.
+        const modal = document.createElement("div");
+        modal.classList.add("modal", "d-flex", "flex-column", "justify-content-between", "align-items-center");
+
+        const modalTitle = document.createElement("h2");
+        modalTitle.textContent = `Resumen de tu compra.`;
+
+        modal.appendChild(modalTitle);
+
+        // Itera sobre el carrito y crea elementos para cada pizza
+        carrito.forEach((pizza) => {
+            const pizzaInfo = document.createElement("div");
+            pizzaInfo.classList.add("pizza-info");
+
+            const pizzaTitle = document.createElement("h3");
+            pizzaTitle.textContent = pizza.title;
+
+            const pizzaPrice = document.createElement("p");
+            pizzaPrice.textContent = `Precio: $${pizza.price}`;
+
+            const pizzaCantidad = document.createElement("p");
+            pizzaCantidad.textContent = `Cantidad: ${pizza.cantidad}`;
+
+            const increaseButton = document.createElement("button");
+            increaseButton.classList.add("btn", "btn-outline-success", "button-aumentar",);
+            increaseButton.textContent = "+";
+
+            const decreaseButton = document.createElement("button");
+            decreaseButton.classList.add("btn", "btn-outline-danger", "button-disminuir");
+            decreaseButton.textContent = "-";
+
+            pizzaInfo.appendChild(pizzaTitle);
+            pizzaInfo.appendChild(pizzaPrice);
+            pizzaInfo.appendChild(pizzaCantidad);
+
+            pizzaInfo.appendChild(increaseButton);
+            
+            pizzaInfo.appendChild(decreaseButton);
+
+            modal.appendChild(pizzaInfo);
+        });
 
 
+        document.body.appendChild(modal);
     }
-});
+}
 
 findAll().then((pizzas) => {
     pizzas.forEach(pizza => {

@@ -1,5 +1,7 @@
 let carrito = [];
+let cartCounter = 0;
 const btnCar = document.getElementById("cartShopping");
+const cartCounterElement = document.getElementById('cartCounter');
 const pizzaList = document.getElementById("pizzaList");
 
 async function findAll() {
@@ -86,7 +88,7 @@ function createPizzaCard(pizza) {
             swalButtons
                 .fire({
                     title: `¿Deseas agregar ${pizza.title} al carrito?`,
-                    text: `¡Apúrate! solo quedan ${pizza.stock}`,
+                    text: `¡solo quedan! ${pizza.stock}`,
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Agregar",
@@ -97,8 +99,11 @@ function createPizzaCard(pizza) {
                     if (result.isConfirmed) {
                         // Se ejecuta solo si el usuario confirma agregar al carrito
                         pizza.stock--;
+                        cartCounter++;
+                        console.log(cartCounter)
                         console.log(pizza);
                         stock.innerText = `Stock: ${pizza.stock}`;
+                        cartCounterElement.innerText = cartCounter
                         carrito.push(pizza)
 
                         Swal.fire({

@@ -84,39 +84,59 @@ function createPizzaCard(pizza) {
                 },
                 buttonsStyling: false,
             });
-
-            swalButtons
-                .fire({
-                    title: `¿Deseas agregar ${pizza.title} al carrito?`,
-                    text: `¡solo quedan! ${pizza.stock}`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Agregar",
-                    cancelButtonText: "Cancelar",
-                    reverseButtons: true,
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        // Se ejecuta solo si el usuario confirma agregar al carrito
-                        pizza.stock--;
-                        cartCounter++;
-                        console.log(cartCounter)
-                        console.log(pizza);
-                        stock.innerText = `Stock: ${pizza.stock}`;
-                        cartCounterElement.innerText = cartCounter
-                        carrito.push(pizza)
-
-                        Swal.fire({
-                            title: `Su ${pizza.title} ha siddo agregada al carrito`,
-                            text: "",
-                            icon: "success",
-                        });
-                    }
+    
+            // Verifica si la cantidad a agregar es menor o igual al stock
+            const cantidadAgregada = 1; // Puedes cambiar esto según tus necesidades
+    
+            if (cantidadAgregada <= pizza.stock) {
+                swalButtons
+                    .fire({
+                        title: `¿Deseas agregar ${pizza.title} al carrito?`,
+                        text: `¡solo quedan! ${pizza.stock}`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Agregar",
+                        cancelButtonText: "Cancelar",
+                        reverseButtons: true,
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            // Busca la pizza en el carrito
+                            const existingPizza = carrito.find((p) => p.title === pizza.title);
+    
+                            if (existingPizza) {
+                                // Incrementa la cantidad si ya está en el carrito
+                                existingPizza.cantidad += cantidadAgregada;
+                            } else {
+                                // Agrega la pizza al carrito con la cantidad especificada
+                                const pizzaToAdd = { ...pizza, cantidad: cantidadAgregada }; // Copia el objeto pizza y agrega cantidad
+                                carrito.push(pizzaToAdd);
+                            }
+    
+                            // Actualiza el stock y el contador
+                            pizza.stock -= cantidadAgregada;
+                            cartCounter += cantidadAgregada;
+    
+                            Swal.fire({
+                                title: `Su ${pizza.title} ha sido agregada al carrito`,
+                                text: "",
+                                icon: "success",
+                            });
+    
+                            // Actualiza el botón de stock en la interfaz
+                            stock.innerText = `Stock: ${pizza.stock}`;
+                            cartCounterElement.innerText = cartCounter;
+                        }
+                    });
+            } else {
+                Swal.fire({
+                    title: `No hay suficiente stock de ${pizza.title}`,
+                    text: "",
+                    icon: "info",
                 });
-
+            }
         }
     });
-
 
     return card;
 }
@@ -173,7 +193,7 @@ function cartPizzas() {
             pizzaInfo.appendChild(pizzaCantidad);
 
             pizzaInfo.appendChild(increaseButton);
-            
+
             pizzaInfo.appendChild(decreaseButton);
 
             modal.appendChild(pizzaInfo);

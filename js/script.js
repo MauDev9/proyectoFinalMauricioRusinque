@@ -23,6 +23,7 @@ async function findAll() {
     });
 }
 
+//Se crean la cantidad de pizzas en  base al objeto de Json.
 function createPizzaCard(pizza) {
     const card = document.createElement("div");
     card.classList.add("card", "border-primary", "mb-3", "d-flex", "flex-row", "col-md-4");
@@ -141,11 +142,12 @@ function createPizzaCard(pizza) {
 
     return card;
 }
-
+//Boton del carrito
 btnCar.addEventListener('click', () => {
     cartPizzas()
 });
 
+//Funcion para el carrito.
 function cartPizzas() {
     let pizzaJson = JSON.stringify(carrito);
     localStorage.setItem("Carrito", pizzaJson)
@@ -313,6 +315,7 @@ function cartPizzas() {
     }
 }
 
+//Resumen de la compra.
 function resumenCompra(totalCompra) {
     let resumen = "<div>";
     carrito.forEach((pizza) => {
@@ -321,6 +324,7 @@ function resumenCompra(totalCompra) {
     resumen += `<p>Total: $${totalCompra}</p></div>`;
     return resumen;
 }
+
 
 findAll().then((pizzas) => {
     pizzas.forEach(pizza => {

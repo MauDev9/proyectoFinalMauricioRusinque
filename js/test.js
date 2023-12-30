@@ -60,7 +60,6 @@ function createPizzaCard(pizza) {
     cardBody.appendChild(price);
     cardBody.appendChild(description);
     cardBody.appendChild(stock);
-
     cardBody.appendChild(orderButton);
 
     card.appendChild(img);
@@ -234,8 +233,6 @@ function cartPizzas() {
                                 carrito.splice(pizzaIndex, 1);
                             }
 
-                            totalCompraElement.textContent = `Precio final: $${totalCompra}`;
-
                             pizzaInfo.remove();
 
                             if (carrito.length === 0) {
@@ -265,12 +262,8 @@ function cartPizzas() {
             modalCardsContainer.appendChild(pizzaInfo);
         });
 
-        const totalCompraElement = document.createElement("p");
-        totalCompraElement.textContent = `Precio final: $${totalCompra}`;
-        modal.appendChild(totalCompraElement);
-
         const clearCartButton = document.createElement("button");
-        clearCartButton.classList.add("btn", "btn-danger", "mt-3");
+        clearCartButton.classList.add("btn", "btn-danger", "mt-3", "mx-auto");
         clearCartButton.textContent = "Limpiar Carrito";
         clearCartButton.addEventListener("click", () => {
             Swal.fire({
@@ -286,13 +279,30 @@ function cartPizzas() {
         });
 
         const checkoutButton = document.createElement("button");
-        checkoutButton.classList.add("btn", "btn-success", "mt-3");
+        checkoutButton.classList.add("btn", "btn-success", "mt-3", "mx-auto");
         checkoutButton.textContent = "Finalizar Compra";
         checkoutButton.addEventListener('click', () => {
-            console.log("Compra finalizada. Carrito:", carrito);
-            modal.style.display = 'none';
-            btnCar.style.display = 'block';
-            pizzaList.style.display = 'block';
+            Swal.fire({
+                title: "Resumen de la compra",
+                html: resumenCompra(totalCompra),
+                showCloseButton: true,
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "¡Gracias por tu compra!",
+                        text: "Tu pizza está en camino. ¡Buen provecho!",
+                        icon: "success",
+                    }).then(() => {
+                        carrito = [];
+                        localStorage.removeItem("Carrito");
+                        location.reload(true);
+                    });
+                }
+            });
         });
 
         modal.appendChild(modalCardsContainer);
@@ -303,10 +313,18 @@ function cartPizzas() {
     }
 }
 
+function resumenCompra(totalCompra) {
+    let resumen = "<div>";
+    carrito.forEach((pizza) => {
+        resumen += `<p>${pizza.title} x${pizza.cantidad}</p>`;
+    });
+    resumen += `<p>Total: $${totalCompra}</p></div>`;
+    return resumen;
+}
+
 findAll().then((pizzas) => {
     pizzas.forEach(pizza => {
         const card = createPizzaCard(pizza);
         pizzaList.appendChild(card);
     });
-
 });

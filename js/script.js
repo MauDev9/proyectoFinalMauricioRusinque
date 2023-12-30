@@ -60,7 +60,6 @@ function createPizzaCard(pizza) {
     cardBody.appendChild(price);
     cardBody.appendChild(description);
     cardBody.appendChild(stock);
-
     cardBody.appendChild(orderButton);
 
     card.appendChild(img);
@@ -173,10 +172,6 @@ function cartPizzas() {
         const modalCardsContainer = document.createElement("div");
         modalCardsContainer.classList.add("modal-cards-container", "row");
 
-        const checkoutButton = document.createElement("button");
-        checkoutButton.classList.add("btn", "btn-success", "mt-3", "mx-auto");
-        checkoutButton.textContent = "Finalizar Compra";
-
         carrito.forEach((pizza) => {
             const pizzaInfo = document.createElement("div");
             pizzaInfo.classList.add("pizza-info", "col-md-4");
@@ -283,17 +278,30 @@ function cartPizzas() {
             }, 2000);
         });
 
+        const checkoutButton = document.createElement("button");
+        checkoutButton.classList.add("btn", "btn-success", "mt-3", "mx-auto");
+        checkoutButton.textContent = "Finalizar Compra";
         checkoutButton.addEventListener('click', () => {
             Swal.fire({
                 title: "Resumen de la compra",
                 html: resumenCompra(totalCompra),
                 showCloseButton: true,
-                showCancelButton: false,
-                showConfirmButton: false,
-            }).then(() => {
-                modal.style.display = 'none';
-                btnCar.style.display = 'block';
-                pizzaList.style.display = 'block';
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "¡Gracias por tu compra!",
+                        text: "Tu pizza está en camino. ¡Buen provecho!",
+                        icon: "success",
+                    }).then(() => {
+                        carrito = [];
+                        localStorage.removeItem("Carrito");
+                        location.reload(true);
+                    });
+                }
             });
         });
 

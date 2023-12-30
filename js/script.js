@@ -294,7 +294,7 @@ function cartPizzas() {
                 if (result.isConfirmed) {
                     Swal.fire({
                         title: "¡Gracias por tu compra!",
-                        text: "Tu pizza está en camino. ¡Buen provecho!",
+                        text: "Tu orden está en camino. ¡Buen provecho!",
                         icon: "success",
                     }).then(() => {
                         carrito = [];
